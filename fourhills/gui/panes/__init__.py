@@ -8,6 +8,7 @@ from .party_pane import PartyPane
 from .party_list_pane import PartyListPane
 from .quest_pane import QuestPane
 from .quest_list_pane import QuestListPane
+from .name_pane import GenerateNamePane
 
 __all__ = [
     "EntityListPane",
@@ -20,4 +21,5 @@ __all__ = [
     "PartyListPane",
     "QuestPane",
     "QuestListPane",
+    "GenerateNamePane",
 ]

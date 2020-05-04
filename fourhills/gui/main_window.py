@@ -19,6 +19,7 @@ from fourhills.gui.panes import (
     PartyListPane,
     QuestPane,
     QuestListPane,
+    GenerateNamePane
 )
 from fourhills.gui.events import AnchorClickedEventFilter
 from fourhills.gui.utils import Config
@@ -38,6 +39,7 @@ class MainWindow(QtWidgets.QMainWindow):
     monsters_pane = None
     party_pane = None
     quests_pane = None
+    create_pane = None
 
     def __init__(self):
         super().__init__()
@@ -140,6 +142,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.quests_pane.load(self.setting.quest_dir)
             self.quests_pane.quest_list.itemActivated.connect(self.on_quest_activated)
 
+    def create_name_pane(self):
+        self.myNameWindow = GenerateNamePane()
+        self.myNameWindow.show() 
+
     def create_actions(self):
         # File menu actions
         self.create_world_action = QtWidgets.QAction("&New World", self)
@@ -181,6 +187,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.view_quests_action.setStatusTip("View list of quests")
         self.view_quests_action.triggered.connect(self.create_quests_pane)
 
+        # Names menu action
+        self.generate_name_action = QtWidgets.QAction("&Generate Name", self)
+        self.generate_name_action.setStatusTip("Generate a character name")
+        self.generate_name_action.triggered.connect(self.create_name_pane)
+
+
     def create_menu_bar(self):
         self.file_menu = self.menuBar().addMenu("&File")
         self.file_menu.addAction(self.create_world_action)
@@ -197,6 +209,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.view_menu.addAction(self.view_notes_action)
         self.view_menu.addAction(self.view_parties_action)
         self.view_menu.addAction(self.view_quests_action)
+
+        self.view_menu = self.menuBar().addMenu("&Names")
+        self.view_menu.addAction(self.generate_name_action)
 
     def update_recent_worlds_menu(self):
         self.recent_worlds_menu.clear()
@@ -445,7 +460,7 @@ class MainWindow(QtWidgets.QMainWindow):
             return False
         self.setting = setting
         self.world_dir = world_dir
-        self.setWindowTitle(self.BASE_TITLE + f" ({path})")
+        self.setWindowTitle(self.BASE_TITLE) #+ f" ({path})"
         if self.location_pane is not None:
             self.location_pane.load(self.setting.world_dir)
         if self.note_pane is not None:
