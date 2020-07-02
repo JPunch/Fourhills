@@ -11,7 +11,7 @@ class GenerateNamePane(QWidget):
         self.name_dict = None
         with open("fourhills/gui/resources/names.yaml", "r") as fh:
             self.name_dict = yaml.safe_load(fh)
-        self.createWindow(250, 200)
+        self.createWindow(400, 200)
 
     def createWindow(self, width, height):
         parent=None
@@ -19,17 +19,21 @@ class GenerateNamePane(QWidget):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.resize(width, height)
         self.box = self.namedrop()
-        self.setWindowTitle("Generate a name I dare you")
+        self.setWindowTitle("Name Generator")
 
         genbtn = QPushButton("Generate Name", self)
         genbtn.sizeHint()
-        genbtn.move(100, 80)
+        c = self.frameGeometry().center()
+        b = genbtn.frameGeometry().center()
+        genbtn.move(c - b)
         genbtn.clicked.connect(self.getrandomname)
 
     def namedrop(self):
         box = QComboBox(self)
         box.addItems(list(self.name_dict.keys()))
-        box.move(100, 40)
+        c = self.frameGeometry().center()
+        b = box.frameGeometry().center()
+        box.move(c.x()-b.x(), c.y()-b.y() - 50)
         return box
 
     def getrandomname(self):
@@ -38,10 +42,11 @@ class GenerateNamePane(QWidget):
         except:
             None
 
-        print("A", self.box.currentText(), "You could call them:")
-        print(generate_name(self.name_dict[self.box.currentText()]))
         self.name = QLabel(f"{generate_name(self.name_dict[self.box.currentText()])}", self)
         self.name.move(100, 120)
+        print("A", self.box.currentText(), "You could call them:")
+        print(self.name.text())
+
         self.name.show()
 
 if __name__ == "__main__":
