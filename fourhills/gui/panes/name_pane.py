@@ -42,8 +42,9 @@ class GenerateNamePane(QWidget):
         except:
             None
 
-        self.name = QLabel(f"{generate_name(self.name_dict[self.box.currentText()])}", self)
-        self.name.move(100, 120)
+        # self.name = QLabel(f"{generate_name(self.name_dict[self.box.currentText()])}", self)
+        self.name = QLineEdit(f"{generate_name(self.name_dict[self.box.currentText()])}", self)
+        self.name.move(125, 120)
         print("A", self.box.currentText(), "You could call them:")
         print(self.name.text())
 
